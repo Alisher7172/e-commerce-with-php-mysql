@@ -1,15 +1,22 @@
 <?php
 include('../includes/database.php');
+
 if (isset($_POST['insert_brand'])) {
     $brand_title = $_POST['brand_title'];
-    $insert_brand = "INSERT INTO brands (brand_title) VALUES ('$brand_title')";
-    $result = mysqli_query($dbcon, $insert_brand);
-    if ($result) {
-        echo "<script>alert('Brand inserted successfully')</script>";
+    $select_brand = "SELECT * FROM brands WHERE brand_title='$brand_title'";
+    $result_brand = mysqli_query($dbcon, $select_brand);
+    if (mysqli_num_rows($result_brand) > 0) {
+        echo "<script>alert('Brand already exists')</script>";
     } else {
-        echo "<script>alert('Failed to insert brand')</script>";
+        $insert_brand = "INSERT INTO brands (brand_title) VALUES ('$brand_title')";
+        $result = mysqli_query($dbcon, $insert_brand);
+        if ($result) {
+            echo "<script>alert('Brand inserted successfully')</script>";
+        } else {
+            echo "<script>alert('Failed to insert brand')</script>";
+        }
     }
-}   
+}
 ?>
 
 <form action="" method="post" class="mb-2" id="form">

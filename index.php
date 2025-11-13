@@ -1,3 +1,6 @@
+<?php
+include('./includes/database.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -148,21 +151,18 @@
                         <h4>Brands<i class="fa-solid fa-crown "></i></h4>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-white">brand1</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-white">brand2</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-white">brand3</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-white">brand4</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-white">brand5</a>
-                </li>
+                <?php
+                $select_brands = "SELECT * FROM brands";
+                $result_brands = mysqli_query($dbcon, $select_brands);
+                while ($row = mysqli_fetch_assoc($result_brands)) {
+                    $brand_title = $row['brand_title'];
+                    $brand_id = $row['brand_id'];
+                    echo "<li class='nav-item'>
+                            <a href='./index.php?brand=$brand_id' class='nav-link text-white'>$brand_title</a>
+                          </li>";
+                }
+             ?>
+
             </ul>
             <ul class="navbar-nav me-auto text-center">
                 <li class="nav-item bg-primary">
@@ -170,21 +170,16 @@
                         <h4><i class="fa-solid fa-quote-left"></i>Categories<i class="fa-solid fa-quote-right"></i></h4>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-white">category1</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-white">category2</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-white">category3</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-white">category4</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link text-white">category5</a>
-                </li>
+                <?php
+                $select_categories = "SELECT * FROM categories";
+                $result_categories = mysqli_query($dbcon, $select_categories);
+                while ($row = mysqli_fetch_assoc($result_categories)) {
+                    $category_title = $row['category_title'];
+                    echo "<li class='nav-item'>
+                            <a href='#' class='nav-link text-white'>$category_title</a>
+                          </li>";
+                }
+                ?>
             </ul>
         </div>
     </div>
