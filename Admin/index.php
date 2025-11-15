@@ -37,7 +37,7 @@
                     <p class="text-light text-center">Admin name</p>
                 </div>
                     <div class="button text-center flex-grow-1">
-                    <button class="my-3 bg-primary p-2"><a href="index.php?insert_product" class="nav-link text-light bg-primary my-1">Insert Products</a></button>
+                    <button class="my-3 bg-primary p-2"><a href="insert_product.php" class="nav-link text-light bg-primary my-1">Insert Products</a></button>
                     <button class="my-3 bg-primary p-2"><a href="index.php?view_products" class="nav-link text-light bg-primary my-1">View Products</a></button>
                     <button class="my-3 bg-primary p-2"><a href="index.php?insert_category" class="nav-link text-light bg-primary my-1">Insert Categories</a></button>
                     <button class="my-3 bg-primary p-2"><a href="index.php?view_categories" class="nav-link text-light bg-primary my-1">View Categories</a></button>
@@ -63,9 +63,6 @@
             }
             if (isset($_GET['view_brands'])) {
                 include('view_brands.php');
-            }
-            if (isset($_GET['insert_product'])) {
-                include('insert_product.php');
             }
             if (isset($_GET['view_products'])) {
                 include('view_products.php');
