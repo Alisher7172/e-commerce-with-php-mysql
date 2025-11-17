@@ -158,7 +158,7 @@ include('./includes/database.php');
                     $brand_title = $row['brand_title'];
                     $brand_id = $row['brand_id'];
                     echo "<li class='nav-item'>
-                            <a href='./index.php?brand=$brand_id' class='nav-link text-white'>$brand_title</a>
+                            <a href='./index.php?brand=$brand_title' class='nav-link text-white'>$brand_title</a>
                           </li>";
                 }
              ?>

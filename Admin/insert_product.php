@@ -1,3 +1,45 @@
+<?php
+include('../includes/database.php');
+if(isset($_POST['insert_product'])) {
+    // Getting the text data from the fields
+    $product_title = $_POST['product_title'];
+    $product_description = $_POST['description'];
+    $product_keywords = $_POST['product_keywords'];
+    $product_category = $_POST['product_categories'];
+    $product_brand = $_POST['product_brands'];
+    $product_price = $_POST['product_price'];
+    $product_status = 'true';
+
+
+    // Getting the image from the fields
+    $product_image1 = $_FILES['product_image1']['name'];
+    $product_image2 = $_FILES['product_image2']['name'];
+    $product_image3 = $_FILES['product_image3']['name'];
+
+    // Getting the image temp name
+    $temp_image1 = $_FILES['product_image1']['tmp_name'];
+    $temp_image2 = $_FILES['product_image2']['tmp_name'];
+    $temp_image3 = $_FILES['product_image3']['tmp_name'];
+
+    // Checking for empty fields
+    if ($product_title=='' or $product_description=='' or $product_keywords=='' or $product_category=='' or $product_brand=='' or $product_price=='' or $product_image1=='' or $product_image2=='' or $product_image3=='') {
+        echo "<script>alert('Please fill all the available fields')</script>";
+        exit();
+    } else {
+        // Uploading images to its folder
+        move_uploaded_file($temp_image1,"./product_images/$product_image1");
+        move_uploaded_file($temp_image2,"./product_images/$product_image2");
+        move_uploaded_file($temp_image3,"./product_images/$product_image3");
+
+        // Inserting product into database
+        $insert_products = "INSERT INTO `products` (product_title, product_description, product_keywords, category_id, brand_id, product_image1, product_image2, product_image3, product_price, date, status) VALUES ('$product_title', '$product_description', '$product_keywords', '$product_category', '$product_brand', '$product_image1', '$product_image2', '$product_image3', '$product_price', NOW(), '$product_status')";
+        $result_query = mysqli_query($dbcon, $insert_products);
+        if ($result_query) {
+            echo "<script>alert('Successfully inserted the product')</script>";
+        }
+    }
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,33 +79,51 @@
             <div class="form-outline mb-4  ">
                 <select name="product_categories"  id="" class="form-select mb-4">
                     <option value="">Select a Category</option>
+                    <?php
+                    $select_query = "SELECT * FROM `categories`";
+                    $result_query = mysqli_query($dbcon, $select_query);
+                    while ($row = mysqli_fetch_assoc($result_query)) {
+                        $category_id = $row['category_id'];
+                        $category_title = $row['category_title'];
+                        echo "<option value='$category_id'>$category_title</option>";
+                    }
+                    ?>
                 </select>
 
                 <!-- brands -->
                 <select name="product_brands" id="" class="form-select">
                     <option value="">Select a Brand</option>
+                    <?php
+                    $select_query = "SELECT * FROM `brands`";
+                    $result_query = mysqli_query($dbcon, $select_query);
+                    while ($row = mysqli_fetch_assoc($result_query)) {
+                        $brand_id = $row['brand_id'];
+                        $brand_title = $row['brand_title'];
+                        echo "<option value='$brand_id'>$brand_title</option>";
+                    }
+                    ?>
                 </select>
             </div> 
 
                 <! -- Product Images -->
             <div class="form-outline mb-4  ">
-                    <label for="product_image" class="form-label">Product Image 1</label>
-                    <input type="file" id="product_image" name="product_image" class="form-control" required>
+                    <label for="product_image1" class="form-label">Product Image 1</label>
+                    <input type="file" id="product_image1" name="product_image1" class="form-control" required>
             </div>
             <div class="form-outline mb-4  ">
-                    <label for="product_image" class="form-label">Product Image 2</label>
-                    <input type="file" id="product_image" name="product_image" class="form-control" required>
+                    <label for="product_image2" class="form-label">Product Image 2</label>
+                    <input type="file" id="product_image2" name="product_image2" class="form-control" required>
             </div>
             <div class="form-outline mb-4  ">
-                    <label for="product_image" class="form-label">Product Image 3</label>
-                    <input type="file" id="product_image" name="product_image" class="form-control" required>
+                    <label for="product_image3" class="form-label">Product Image 3</label>
+                    <input type="file" id="product_image3" name="product_image3" class="form-control" required>
             </div>
             <div class="form-outline mb-4  ">
                 <label for="product_price" class="form-label">Product Price</label>
                 <input type="text" placeholder="Enter product price" autocomplete="off" id="product_price" name="product_price" class="form-control" required>
             </div>
             <div class="form-outline mb-4  ">
-                <input type="submit" class="btn btn-info mb-3 px-3 text-light" value="Insert Product" name="insert_product">    
+                <input type="submit" class="btn btn-primary mb-3 px-3 text-light" value="Insert Product" name="insert_product">    
             </div>
         </form>
     </div>
