@@ -1,41 +1,42 @@
 <?php
 include('../includes/database.php');
 if(isset($_POST['insert_product'])) {
-    // Getting the text data from the fields
-    $product_title = $_POST['product_title'];
-    $product_description = $_POST['description'];
-    $product_keywords = $_POST['product_keywords'];
-    $product_category = $_POST['product_categories'];
-    $product_brand = $_POST['product_brands'];
-    $product_price = $_POST['product_price'];
+    // sanitize text inputs
+    $product_title = mysqli_real_escape_string($dbcon, trim($_POST['product_title']));
+    $product_description = mysqli_real_escape_string($dbcon, trim($_POST['description']));
+    $product_keywords = mysqli_real_escape_string($dbcon, trim($_POST['product_keywords']));
+    $product_category = (int) $_POST['product_categories'];
+    $product_brand = (int) $_POST['product_brands'];
+    $product_price = floatval($_POST['product_price']);
     $product_status = 'true';
 
-
-    // Getting the image from the fields
-    $product_image1 = $_FILES['product_image1']['name'];
-    $product_image2 = $_FILES['product_image2']['name'];
-    $product_image3 = $_FILES['product_image3']['name'];
+    // Getting the image filenames
+    $product_image1 = basename($_FILES['product_image1']['name']);
+    $product_image2 = basename($_FILES['product_image2']['name']);
+    $product_image3 = basename($_FILES['product_image3']['name']);
 
     // Getting the image temp name
     $temp_image1 = $_FILES['product_image1']['tmp_name'];
     $temp_image2 = $_FILES['product_image2']['tmp_name'];
     $temp_image3 = $_FILES['product_image3']['tmp_name'];
 
-    // Checking for empty fields
-    if ($product_title=='' or $product_description=='' or $product_keywords=='' or $product_category=='' or $product_brand=='' or $product_price=='' or $product_image1=='' or $product_image2=='' or $product_image3=='') {
+    // Basic empty check
+    if ($product_title=='' or $product_description=='' or $product_keywords=='' or $product_category==0 or $product_brand==0 or $product_price==0 or $product_image1=='' or $product_image2=='' or $product_image3=='') {
         echo "<script>alert('Please fill all the available fields')</script>";
         exit();
     } else {
-        // Uploading images to its folder
+        // TODO: validate file types and sizes, generate unique filenames (e.g. using time()/uniqid)
         move_uploaded_file($temp_image1,"./product_images/$product_image1");
         move_uploaded_file($temp_image2,"./product_images/$product_image2");
         move_uploaded_file($temp_image3,"./product_images/$product_image3");
 
-        // Inserting product into database
+        // use escaped values already
         $insert_products = "INSERT INTO `products` (product_title, product_description, product_keywords, category_id, brand_id, product_image1, product_image2, product_image3, product_price, date, status) VALUES ('$product_title', '$product_description', '$product_keywords', '$product_category', '$product_brand', '$product_image1', '$product_image2', '$product_image3', '$product_price', NOW(), '$product_status')";
         $result_query = mysqli_query($dbcon, $insert_products);
         if ($result_query) {
             echo "<script>alert('Successfully inserted the product')</script>";
+        } else {
+            echo "<script>alert('DB insert failed: ". mysqli_error($dbcon) ."')</script>";
         }
     }
 }
@@ -77,7 +78,7 @@ if(isset($_POST['insert_product'])) {
 
             <!-- Product Category -->
             <div class="form-outline mb-4  ">
-                <select name="product_categories"  id="" class="form-select mb-4">
+                <select name="product_categories"  id="product_categories" class="form-select mb-4">
                     <option value="">Select a Category</option>
                     <?php
                     $select_query = "SELECT * FROM `categories`";
@@ -91,7 +92,7 @@ if(isset($_POST['insert_product'])) {
                 </select>
 
                 <!-- brands -->
-                <select name="product_brands" id="" class="form-select">
+                <select name="product_brands" id="product_brands" class="form-select">
                     <option value="">Select a Brand</option>
                     <?php
                     $select_query = "SELECT * FROM `brands`";

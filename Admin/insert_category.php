@@ -2,20 +2,26 @@
 include('../includes/database.php');
 
 if (isset($_POST['insert_category'])) {
-    $category_title = $_POST['category_title'];
-    $select_category = "SELECT * FROM categories WHERE category_title='$category_title'";
-    $result_category = mysqli_query($dbcon, $select_category);
-    if (mysqli_num_rows($result_category) > 0) {
+    $category_title = trim($_POST['category_title']);
+
+    // use prepared statements to avoid SQL injection
+    $stmt = mysqli_prepare($dbcon, "SELECT 1 FROM categories WHERE category_title = ?");
+    mysqli_stmt_bind_param($stmt, 's', $category_title);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_store_result($stmt);
+    if (mysqli_stmt_num_rows($stmt) > 0) {
         echo "<script>alert('Category already exists')</script>";
     } else {
-        $insert_category = "INSERT INTO categories (category_title) VALUES ('$category_title')";
-        $result = mysqli_query($dbcon, $insert_category);
-        if ($result) {
+        mysqli_stmt_close($stmt);
+        $stmt = mysqli_prepare($dbcon, "INSERT INTO categories (category_title) VALUES (?)");
+        mysqli_stmt_bind_param($stmt, 's', $category_title);
+        if (mysqli_stmt_execute($stmt)) {
             echo "<script>alert('Category inserted successfully')</script>";
         } else {
             echo "<script>alert('Failed to insert category')</script>";
         }
     }
+    mysqli_stmt_close($stmt);
 }
 ?>
 
