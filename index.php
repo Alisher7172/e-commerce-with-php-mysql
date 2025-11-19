@@ -1,5 +1,7 @@
 <?php
 include('./includes/database.php');
+include('./functions/common_functions.php');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,27 +78,10 @@ include('./includes/database.php');
             <div class="row">
     <!-- fetching products -->
 <?php
-    $select_query = "SELECT * FROM `products` order by rand() LIMIT 0,12";
-    $result_query = mysqli_query($dbcon, $select_query);
-    while ($row = mysqli_fetch_assoc($result_query)) {
-        $product_id = htmlspecialchars($row['product_id']);
-        $product_title = htmlspecialchars($row['product_title']);
-        $product_description = htmlspecialchars($row['product_description']);
-        $product_image1 = htmlspecialchars($row['product_image1']);
-        $product_price = htmlspecialchars($row['product_price']);
-        echo "<div class='col-md-3 mb-4'>
-                <div class='card h-100'>
-                    <img src='Admin/product_images/$product_image1' class='card-img-top' alt='{$product_title}'>
-                    <div class='card-body'>
-                        <h5 class='card-title'>{$product_title}</h5>
-                        <p class='card-text'>{$product_description}</p>
-                        <p class='card-text'><strong>\${$product_price}</strong></p>
-                        <a href='#' class='btn btn-primary'>Add to Cart</a>
-                        <a href='#' class='btn btn-secondary'>View</a>
-                    </div>
-                </div>
-              </div>";
-    }
+getProducts();
+getUniqueCategories();
+getUniqueBrands();
+
 ?>
                 
                 <!-- row end -->
@@ -112,16 +97,8 @@ include('./includes/database.php');
                         <h4>Brands<i class="fa-solid fa-crown "></i></h4>
                     </a>
                 </li>
-                <?php
-                $select_brands = "SELECT * FROM brands";
-                $result_brands = mysqli_query($dbcon, $select_brands);
-                while ($row = mysqli_fetch_assoc($result_brands)) {
-                    $brand_title = $row['brand_title'];
-                    $brand_id = $row['brand_id'];
-                    echo "<li class='nav-item'>
-                            <a href='./index.php?brand=$brand_title' class='nav-link text-white'>$brand_title</a>
-                          </li>";
-                }
+            <?php
+            getBrands();
              ?>
 
             </ul>
@@ -132,14 +109,7 @@ include('./includes/database.php');
                     </a>
                 </li>
                 <?php
-                $select_categories = "SELECT * FROM categories";
-                $result_categories = mysqli_query($dbcon, $select_categories);
-                while ($row = mysqli_fetch_assoc($result_categories)) {
-                    $category_title = $row['category_title'];
-                    echo "<li class='nav-item'>
-                            <a href='#' class='nav-link text-white'>$category_title</a>
-                          </li>";
-                }
+                getCategories();
                 ?>
             </ul>
         </div>
