@@ -33,6 +33,34 @@
    }}
 }
 
+
+ // getting all products
+
+ function getAllProducts() {
+    global $dbcon;
+
+    $select_query = "SELECT * FROM `products` order by rand()";
+    $result_query = mysqli_query($dbcon, $select_query);
+    while ($row = mysqli_fetch_assoc($result_query)) {
+        $product_id = htmlspecialchars($row['product_id']);
+        $product_title = htmlspecialchars($row['product_title']);
+        $product_description = htmlspecialchars($row['product_description']);
+        $product_image1 = htmlspecialchars($row['product_image1']);
+        $product_price = htmlspecialchars($row['product_price']);
+        echo "<div class='col-md-3 mb-4'>
+                <div class='card h-100'>
+                    <img src='Admin/product_images/$product_image1' class='card-img-top' alt='{$product_title}'>
+                    <div class='card-body'>
+                        <h5 class='card-title'>{$product_title}</h5>
+                        <p class='card-text'>{$product_description}</p>
+                        <p class='card-text'><strong>\${$product_price}</strong></p>
+                        <a href='#' class='btn btn-primary'>Add to Cart</a>
+                        <a href='#' class='btn btn-secondary'>View</a>
+                    </div>
+                </div>
+              </div>";
+    }
+   } 
 // getting unique categories
 function getUniqueCategories() {
     global $dbcon;
