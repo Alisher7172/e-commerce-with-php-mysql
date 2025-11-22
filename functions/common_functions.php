@@ -76,8 +76,7 @@ function getUniqueBrands() {
         $brand_id = $_GET['brand'];
     $select_query = "SELECT * FROM `products` WHERE brand_id=$brand_id";
     $result_query = mysqli_query($dbcon, $select_query);
-    $num_of_rows = mysqli_num_rows($result_query);
-    if($num_of_rows==0){
+    if ($num_of_rows = mysqli_num_rows($result_query)) {
         echo "<h2 class='text-center text-danger'>No stock for this brand</h2>";
     }
     while ($row = mysqli_fetch_assoc($result_query)) {
