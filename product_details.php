@@ -38,10 +38,10 @@ include('./functions/common_functions.php');
                         <a class="nav-link" href="#">Contact</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-cart-plus"></i><sup><?php cart_item(); ?></sup></a>
+                        <a class="nav-link" href="#"><i class="fa-solid fa-cart-plus"></i><sup>0</sup></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Total Price: <?php total_cart_price(); ?></a>
+                        <a class="nav-link" href="#">Total Price: $0.00</a>
                     </li>
 
                 </ul>
@@ -52,11 +52,6 @@ include('./functions/common_functions.php');
             </div>
         </div>
     </nav>
-
-    <!-- calling cart function -->
-    <?php
-    cart();
-    ?>
 
     <!-- login navbar -->
 
@@ -84,17 +79,16 @@ include('./functions/common_functions.php');
         <div class="col-md-10">
             <!-- nested row so .col-md-3 children behave correctly -->
             <div class="row">
-    <!-- fetching products -->
-<?php
-getProducts();
-getUniqueCategories();
-getUniqueBrands();
-get_ip_address();
-?>
-                
+                <?php
+                viewDetails() ;
+                getUniqueCategories();
+                getUniqueBrands();
+
+                ?>
+
                 <!-- row end -->
             </div>
-        <!-- col end -->
+            <!-- col end -->
         </div>
         <!-- sidenav: 2/12 columns (sibling to the main col) -->
         <div class="col-md-2 bg-dark p-0">
@@ -105,9 +99,9 @@ get_ip_address();
                         <h4>Brands<i class="fa-solid fa-crown "></i></h4>
                     </a>
                 </li>
-            <?php
-            getBrands();
-             ?>
+                <?php
+                getBrands();
+                ?>
 
             </ul>
             <ul class="navbar-nav me-auto text-center">
@@ -122,11 +116,12 @@ get_ip_address();
             </ul>
         </div>
     </div>
- 
+
     <!-- footer -->
     <?php include('./includes/footer.php'); ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
 </body>
+
 </html>
