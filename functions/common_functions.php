@@ -19,7 +19,7 @@
         $product_price = htmlspecialchars($row['product_price']);
         echo "<div class='col-md-3 mb-4'>
                 <div class='card h-100'>
-                    <img src='Admin/product_images/$product_image1' class='card-img-top' alt='{$product_title}'>
+                    <img class='cart-image' src='Admin/product_images/$product_image1' class='card-img-top' alt='{$product_title}'>
                     <div class='card-body'>
                         <h5 class='card-title'>$product_title</h5>
                         <p class='card-text'>$product_description</p>
@@ -346,4 +346,6 @@ function total_cart_price() {
     }
     echo "$" . $total_price;
 }
+
+
 ?>
