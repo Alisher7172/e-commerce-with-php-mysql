@@ -1,6 +1,6 @@
 <?php 
   // including database connection
-  include('./includes/database.php');
+  include('../database.php');
 
   // getting products
     function getProducts() {

@@ -1,7 +1,7 @@
 <?php
-include('./includes/database.php');
-include('./functions/common_functions.php');
-
+include('database.php');
+include('functions/common_functions.php');
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,6 +13,11 @@ include('./functions/common_functions.php');
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+    </style>
 </head>
 
 <body>
@@ -32,7 +37,7 @@ include('./functions/common_functions.php');
                         <a class="nav-link active" aria-current="page" href="display_all.php">Products</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Register</a>
+                        <a class="nav-link" href="./user_area/user_signup.php">Register</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
@@ -62,14 +67,27 @@ include('./functions/common_functions.php');
 
     <nav class="navbar navbar-expand-lg bg-body-light bg-white border border-bottom-dark">
         <div class="container-fluid">
-            <h5>Welcome User</h5>
+            <h5>Welcome <?php
+                        if (!isset($_SESSION['username'])) {
+                            echo "Guest";
+                        } else {
+                            echo $_SESSION['username'];
+                        }
+                        ?></h5>
             <div class="collapse navbar-collapse" id="loginNavbar">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <?php
+                    if (!isset($_SESSION['username'])) {
+                        echo "<li class='nav-item'>
+                        <a class='nav-link' href='./user_area/user_login.php'>Login</a>
+                    </li>";
+                    } else {
+                        echo "<li class='nav-item'>
+                        <a class='nav-link' href='./user_area/user_logout.php'>Logout</a>
+                    </li>";
+                    } ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Register</a>
+                        <a class="nav-link" href="./user_area/user_signup.php">Register</a>
                     </li>
                 </ul>
             </div>

@@ -1,6 +1,6 @@
 <?php
-include('./includes/database.php');
-include('./functions/common_functions.php');
+include('database.php');
+include('functions/common_functions.php');
 
 ?>
 <!DOCTYPE html>
@@ -111,7 +111,7 @@ include('./functions/common_functions.php');
                                                 <td>\$$product_price</td>
                                                 <td><input type='checkbox' name='removeItem[]' value='$product_id'></td>
                                                 <td><input type='submit' value='Remove' class='btn btn-secondary' name='remove_item'></td>
-                                                <td><input type='submit' value='Update Cart' class='btn btn-secondary' name='update_cart'></td>
+                                                <td><a href='edit.php?product_id=$product_id'><button type='submit' value='Update Cart' class='btn btn-secondary' name='update_cart'>Update</button></a></td>
                                             </tr>";
                                             
                                     }
@@ -124,24 +124,31 @@ include('./functions/common_functions.php');
                 </div>
                 <?php 
                   $get_ip_add = get_ip_address();
-                                $select_query = "SELECT * FROM `cart_details` WHERE ip_address='$get_ip_add'";
-                                $result_query = mysqli_query($dbcon, $select_query);
-                                $result_count = mysqli_num_rows($result_query);
-
-                                $get_ip_add = get_ip_address();
-                                if ($result_count == 0) {
-                                echo "
-                                <div class='d-flex justify-content-center'>
-                                    <a href='display_all.php' class='btn btn-primary mb-3'>Continue Shopping</a>
-                                </div>";
-                                } else {
-                                    echo "
-                                    <div class='d-flex justify-content-center'>
-                                        <a href='display_all.php' class='btn btn-primary mb-3 me-3'>Continue Shopping</a>
-                                        <a href='checkout.php' class='btn btn-success mb-3'>Checkout</a>
-                                    </div>
-                                    ";
-                                }
+                  $select_query = "SELECT * FROM `cart_details` WHERE ip_address='$get_ip_add'";
+                  $result_query = mysqli_query($dbcon, $select_query);
+                  $result_count = mysqli_num_rows($result_query);
+                  $product_price = $row['product_price'] ?? 0;
+                  if (isset($_POST['update_cart'])) {
+                          $quantity = $_POST['quantity'];
+                          $update_cart = "UPDATE `cart_details` SET quantity=$quantity WHERE ip_address='$get_ip_add'";
+                          $result_quantity = mysqli_query($dbcon, $update_cart);
+                          $_SESSION['quantity'] = $quantity;
+                          $total_price = $product_price * $quantity;
+                  }
+                  $get_ip_add = get_ip_address();
+                  if ($result_count == 0) {
+                  echo "
+                  <div class='d-flex justify-content-center'>
+                      <a href='display_all.php' class='btn btn-primary mb-3'>Continue Shopping</a>
+                  </div>";
+                  } else {
+                      echo "
+                      <div class='d-flex justify-content-center'>
+                          <a href='display_all.php' class='btn btn-primary mb-3 me-3'>Continue Shopping</a>
+                          <a href='user_area/checkout.php' class='btn btn-success mb-3'>Checkout</a>
+                      </div>
+                      ";
+                  }
                 ?>
                 
                 </div>
@@ -172,13 +179,7 @@ echo $remove_item = remove_cart_item();
         <?php include('./includes/footer.php'); ?>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
- <!-- <?php if (isset($_POST['update_cart'])) {
-        $quantity = $_POST['quantity'];
-        $update_cart = "UPDATE `cart_details` SET quantity=$quantity WHERE ip_address='$get_ip_add'";
-        $result_quantity = mysqli_query($dbcon, $update_cart);
-        $_SESSION['quantity'] = $quantity;
-        $total_price = $product_price * $quantity;
-    } ?> -->
+
 </body>
 
 </html>

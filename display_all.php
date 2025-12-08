@@ -1,6 +1,6 @@
 <?php
-include('./includes/database.php');
-include('./functions/common_functions.php');
+include('database.php');
+include('functions/common_functions.php');
 
 ?>
 <!DOCTYPE html>
@@ -29,16 +29,16 @@ include('./functions/common_functions.php');
                         <a class="nav-link active" aria-current="page" href="display_all.php">Products</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        <a class="nav-link active" aria-current="page" href="index.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Register</a>
+                        <a class="nav-link" href="./user_area/user_signup.php">Register</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fa-solid fa-cart-plus"></i><sup>0</sup></a>
+                        <a class="nav-link" href="cart.php"><i class="fa-solid fa-cart-plus"></i><sup>0</sup></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Total Price: $0.00</a>
@@ -61,10 +61,10 @@ include('./functions/common_functions.php');
             <div class="collapse navbar-collapse" id="loginNavbar">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Login</a>
+                        <a class="nav-link" href="./user_area/user_login.php">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Register</a>
+                        <a class="nav-link" href="./user_area/user_signup.php">Register</a>
                     </li>
                 </ul>
             </div>

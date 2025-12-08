@@ -1,6 +1,6 @@
 <?php
-include('./includes/database.php');
-include('./functions/common_functions.php');
+include('database.php');
+include('functions/common_functions.php');
 
 ?>
 <!DOCTYPE html>
