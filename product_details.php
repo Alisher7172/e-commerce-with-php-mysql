@@ -1,7 +1,7 @@
 <?php
 include('database.php');
 include('functions/common_functions.php');
-
+session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -57,12 +57,26 @@ include('functions/common_functions.php');
 
     <nav class="navbar navbar-expand-lg bg-body-light bg-white border border-bottom-dark">
         <div class="container-fluid">
-            <h5>Welcome User</h5>
+            <h5>Welcome <?php
+                        if (!isset($_SESSION['username'])) {
+                            echo "Guest";
+                        } else {
+                            echo $_SESSION['username'];
+                        }
+                        ?></h5>
             <div class="collapse navbar-collapse" id="loginNavbar">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Login</a>
-                    </li>
+                   <?php
+                    if (!isset($_SESSION['username'])) {
+                        echo "<li class='nav-item'>
+                        <a class='nav-link' href='./user_area/user_login.php'>Login</a>
+                    </li>";
+                    } else {
+                        echo "<li class='nav-item'>
+                        <a class='nav-link' href='./user_area/user_logout.php'>Logout</a>
+                    </li>";
+                    }
+                   ?>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Register</a>
                     </li>

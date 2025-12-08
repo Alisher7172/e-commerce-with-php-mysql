@@ -1,3 +1,10 @@
+<?php
+    // including database connection
+    include('../database.php');
+    include('../functions/common_functions.php');
+    @session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,10 +48,6 @@
 
 
  <?php
-    // including database connection
-    include('../database.php');
-    include('../functions/common_functions.php');
-
     // user login
     if (isset($_POST['user_login'])) {
         $user_email = $_POST['user_email'];
